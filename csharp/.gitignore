@@ -1,5 +1,3 @@
-scripts/*
-
 *.swp
 *.*~
 project.lock.json

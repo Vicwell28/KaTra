@@ -259,5 +259,78 @@ namespace csharp
             // Calcula la suma de los dígitos del total sumado y retorna el resultado
             return totalSum.ToString().Sum(c => c - '0');
         }
+
+        /// <summary>
+        /// Verifica si dos arreglos contienen los mismos elementos con las mismas multiplicidades,
+        /// donde los elementos de 'b' son los cuadrados de los elementos de 'a'.
+        /// </summary>
+        /// <param name="a">Primer arreglo de enteros.</param>
+        /// <param name="b">Segundo arreglo de enteros, supuestamente conteniendo los cuadrados de 'a'.</param>
+        /// <returns>True si 'b' contiene los cuadrados de 'a' con multiplicidades iguales; de lo contrario, false.</returns>
+        public static bool comp(int[] a, int[] b)
+        {
+            // Verificar si alguno de los arreglos es null o si tienen diferentes longitudes
+            if (a == null || b == null || a.Length != b.Length)
+            {
+                return false;
+            }
+
+            // Ordenar ambos arreglos para facilitar la comparación
+            Array.Sort(a);
+            Array.Sort(b);
+
+            // Comparar cada elemento de 'a' con el cuadrado del correspondiente en 'b'
+            for (int i = 0; i < a.Length; i++)
+            {
+                // Convertir a long para evitar posibles desbordamientos al elevar al cuadrado
+                long square = (long)a[i] * a[i];
+
+                if (square != b[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Calcula el número de botellas de whisky duty free que se deben comprar
+        /// para que los ahorros cubran el costo de las vacaciones.
+        /// </summary>
+        /// <param name="normPrice">Precio normal de una botella en libras (£).</param>
+        /// <param name="Discount">Descuento duty free en porcentaje (%).</param>
+        /// <param name="hol">Costo total de las vacaciones en libras (£).</param>
+        /// <returns>Número de botellas necesarias, redondeado hacia abajo.</returns>
+        public static int DutyFree(int normPrice, int Discount, int hol)
+        {
+            // Validar que el precio normal y el descuento sean mayores que cero para evitar divisiones por cero
+            if (normPrice <= 0 || Discount <= 0)
+            {
+                throw new ArgumentException("El precio normal y el descuento deben ser mayores que cero.");
+            }
+
+            // Calcular los ahorros por botella
+            // Ahorro por botella = normPrice * (Discount / 100)
+            // Para evitar operaciones de punto flotante, multiplicamos hol * 100 y dividimos por (normPrice * Discount)
+            long totalSavings = (long)hol * 100;
+            long savingsPerBottle = (long)normPrice * Discount;
+
+            // Calcular el número de botellas necesarias, redondeando hacia abajo
+            int numberOfBottles = (int)(totalSavings / savingsPerBottle);
+
+            return numberOfBottles;
+        }
+
+        /// <summary>
+        /// Genera una tabla de multiplicar para un número dado desde 1 hasta 10 de manera concisa.
+        /// </summary>
+        /// <param name="number">El número para el cual se generará la tabla de multiplicar.</param>
+        /// <returns>Una cadena que representa la tabla de multiplicar, con cada línea en formato "i * number = resultado".</returns>
+        public static string MultiTable(int number)
+        {
+            // Utilizar LINQ para generar las líneas de la tabla y unirlas con saltos de línea
+            return string.Join("\n", Enumerable.Range(1, 10).Select(i => $"{i} * {number} = {i * number}"));
+        }
     }
 }
